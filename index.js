@@ -159,6 +159,8 @@ db.once('open', function() {
 
 const port = process.env.PORT || 5000;
 
+console.log(process.env)
+
 app.listen(port, function () {
   console.log(`TODO List API listening on port ${port}`)
 })
