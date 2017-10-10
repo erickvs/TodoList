@@ -1,8 +1,23 @@
 const express = require('express')
 const path = require('path')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-mongoose.connect('mongodb://localhost/todolist')
+const mongoose = require('mongoose')
+
+// Here we find an appropriate database to connect to, defaulting to
+// localhost if we don't find one.
+var uristring =
+process.env.MONGOLAB_URI ||
+process.env.MONGOHQ_URL ||
+'mongodb://localhost/todolist';
+
+//mongoose.connect('mongodb://localhost/todolist')
+mongoose.connect(uristring, function (err, res) {
+  if (err) {
+  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+  console.log ('Succeeded connected to: ' + uristring);
+  }
+});
 
 const app = express()
 
@@ -132,14 +147,15 @@ db.once('open', function() {
 				})
 			})
 		})
-	})	
+	})
+
+	// The "catchall" handler: for any request that doesn't
+	// match one above, send back React's index.html file.
+	app.get('*', (req, res) => {
+	  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+	});	
 })
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
 
 const port = process.env.PORT || 5000;
 
