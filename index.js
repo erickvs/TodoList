@@ -73,7 +73,7 @@ db.once('open', function() {
 			todoId: todo._id})
 	})
 
-	// Update todo
+	// Update todo depending on the type of update
 	app.put('/api/todos/:todoId', function(req, res) {
 		switch(req.body.type) {
 			case 'TOGGLE_IS_COMPLETED':
