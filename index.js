@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const morgan = require('morgan')
 
 // Here we find an appropriate database to connect to, defaulting to
 // localhost if we don't find one.
@@ -20,6 +21,7 @@ mongoose.connect(uristring, function (err, res) {
 });
 
 const app = express()
+app.use(morgan('combined'))
 
 // Create application/json parser
 var jsonParser = bodyParser.json()
@@ -73,51 +75,43 @@ db.once('open', function() {
 			todoId: todo._id})
 	})
 
-	// Update todo depending on the type of update
+	// Toggle a TODO's completed state
 	app.put('/api/todos/:todoId', function(req, res) {
-		switch(req.body.type) {
-			case 'TOGGLE_IS_COMPLETED':
-				Todo.findOne({_id: req.params.todoId}, function(err, todo) {
-					if (err) {
-						return console.log(err)
-					}
-					todo.toggleCompleted()
-					todo.save(function(err, todo) {
-						if (err) return console.log(err)
-						res.json({
-							todo: todo.content,
-							isCompleted: todo.isCompleted,
-							todoId: todo._id
-						})
-					})
-				})
-				break
-			case 'POSITIONS_CHANGED':
-				const REGEX = /([a-f0-9]+):([\d]+)/
-				const arr = req.body.todos.split(",")
-				arr.forEach( token => {
-					const matchResult = token.match(REGEX)
-					const todoId = matchResult[1]
-					const newPosition = matchResult[2]
-					Todo.findOne({_id: todoId}, function(err, todo) {
-						if (err) return console.log(err)
-						todo.updatePosition(newPosition) // Update position
-						todo.save(function(err, todo) {
-							if (err) return console.log(err)
-							// TODO should be updated now
-						})
-					})
-				})
-				res.json({success: true})
-				break
-			default:
+		Todo.findOne({_id: req.params.todoId}, function(err, todo) {
+			if (err) {
+				return console.log(err)
+			}
+			todo.toggleCompleted()
+			todo.save(function(err, todo) {
+				if (err) return console.log(err)
 				res.json({
-					success: false,
-					message: `${req.body.type} was not recognized!`
+					todo: todo.content,
+					isCompleted: todo.isCompleted,
+					todoId: todo._id,
+					position: todo.position
 				})
-		}
+			})
+		})
+	})
 
-
+	// Modify TODOs positions
+	app.put('/api/todos/', function(req, res) {
+		const REGEX = /([a-f0-9]+):([\d]+)/
+		const arr = req.body.todos.split(",")
+		arr.forEach( token => {
+			const matchResult = token.match(REGEX)
+			const todoId = matchResult[1]
+			const newPosition = matchResult[2]
+			Todo.findOne({_id: todoId}, function(err, todo) {
+				if (err) return console.log(err)
+				todo.updatePosition(newPosition) // Update position
+				todo.save(function(err, todo) {
+					if (err) return console.log(err)
+					// TODO should be updated now
+				})
+			})
+		})
+		res.json({success: true})
 	})
 
 	// Delete todo
