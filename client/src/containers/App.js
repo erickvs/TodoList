@@ -4,7 +4,8 @@ import TodoList from '../TodoList'
 import {
 	toggleNewTodoFormDisplay, 
 	saveToggleIsCompleted, 
-	createNewTodo
+	createNewTodo,
+	deleteTodo
 } from '../actions'
 
 
@@ -26,6 +27,10 @@ const mapDispatchToProps = dispatch => {
 		},
 		toggleNewTodoFormDisplay: () => {
 			dispatch(toggleNewTodoFormDisplay())
+		},
+		handleDeleteTodo: e => {
+			const todoId = e.target.parentNode.dataset.todoid
+			dispatch(deleteTodo(todoId))
 		}
 	}
 }

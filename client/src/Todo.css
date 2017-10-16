@@ -11,3 +11,11 @@
 	font-family: 'Quicksand', sans-serif;
 	font-size: 20px;
 }
+
+#delIcon {
+	float: right;
+}
+
+#delIcon h1{
+	margin: 10px;
+}

@@ -36,6 +36,7 @@ class TodoList extends React.Component {
 					todoId={todoId}
 					todo={todo.todo} 
 					completed={todo.isCompleted} 
+					deleteTodo={props.handleDeleteTodo}
 				/>
 			)
 		}

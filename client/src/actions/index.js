@@ -36,11 +36,21 @@ export const createNewTodo = todo => {
 			response => {
 				dispatch(addTodo(response.data))
 			}
-		).catch(
-			error => console.log(error)
-		)
+		).catch(error => console.log(error))
 	}
 }
+
+export const deleteTodo = todoId => {
+	return dispatch => {
+		return axios({
+			method: 'delete', 
+			url: `/api/todos/${todoId}`
+		}).then(response => {
+			dispatch(fetchTodos())
+		}).catch(error => console.log(error))
+	}
+}
+
 
 export const TOGGLE_IS_COMPLETED = "TOGGLE_IS_COMPLETED"
 export const toggleIsCompleted = (todo) => {
