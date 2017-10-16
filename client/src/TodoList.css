@@ -32,6 +32,22 @@ ul.todoList {
 	padding: 0;
 }
 
+ul.todoList li,
+ul.todoList li form,
+ul.todoList li form label {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+ul.todoList li form label input {
+	width: 60%;
+	height: 50px;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 400;
+	font-size: 20px;
+}
+
 ul.menu {
 	display: flex;
 	justify-content: space-between;

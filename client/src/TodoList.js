@@ -46,6 +46,7 @@ class TodoList extends React.Component {
 				<form onSubmit={this.createNewTodo}>
 					<label>
 						<input 
+							placeHolder="Enter TODO"
 							className="form-control"
 							type="text" 
 							value={this.state.newTodoValue} 
@@ -68,7 +69,7 @@ class TodoList extends React.Component {
 				</header>
 				<ul className='todoList'>
 					{ props.displayNewTodoForm && newTodoInput}
-					{ todos }
+					{ todos.reverse() }
 				</ul>
 			</div>
 		)
