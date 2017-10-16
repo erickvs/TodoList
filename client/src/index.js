@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './containers/App';
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
@@ -12,13 +12,18 @@ import {fetchTodos} from './actions'
 
 const loggerMiddleware = createLogger()
 
-let store = createStore(
+const middleware = applyMiddleware(
+	thunkMiddleware,
+	loggerMiddleware
+);
+
+const composeEnhancers =
+	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
 	TodoList,
-	compose(
-		applyMiddleware(thunkMiddleware,loggerMiddleware),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-)
+	composeEnhancers(middleware)
+);
 
 // Hydrate the store
 store.dispatch(fetchTodos())

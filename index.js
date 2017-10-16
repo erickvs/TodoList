@@ -40,9 +40,8 @@ db.once('open', function() {
 
 	// Todo Schema
 	var todoSchema = mongoose.Schema({
-		content: String,
-		isCompleted: Boolean,
-		position: Number
+		todo: String,
+		isCompleted: Boolean
 	})
 
 	todoSchema.methods.toggleCompleted = function() {
@@ -58,25 +57,24 @@ db.once('open', function() {
 
 	// Create a new todo
 	app.post('/api/todos', function(req, res) {
-		const content = req.body.content
-		const position = req.body.position
 		const todo = new Todo({
-			content: content, 
-			isCompleted: false,
-			position: position
+			todo: req.body.todo, 
+			isCompleted: false
 		})
 		todo.save(function (err, todo) {
 			if (err) {
 				return console.log(err)
 			}
+			res.json({
+				todo: todo.todo,
+				isCompleted: todo.isCompleted,
+				todoId: todo._id
+			})
 		})
-		res.json({
-			success: true, 
-			todoId: todo._id})
 	})
 
 	// Toggle a TODO's completed state
-	app.put('/api/todos/:todoId', function(req, res) {
+	app.put('/api/todos/:todoId/toggle-is-completed', function(req, res) {
 		Todo.findOne({_id: req.params.todoId}, function(err, todo) {
 			if (err) {
 				return console.log(err)
@@ -85,10 +83,9 @@ db.once('open', function() {
 			todo.save(function(err, todo) {
 				if (err) return console.log(err)
 				res.json({
-					todo: todo.content,
+					todo: todo.todo,
 					isCompleted: todo.isCompleted,
-					todoId: todo._id,
-					position: todo.position
+					todoId: todo._id
 				})
 			})
 		})
@@ -130,16 +127,14 @@ db.once('open', function() {
 	app.get('/api/todos', function(req, res) {
 		Todo.find(function(err, todos) {
 			if (err) { return console.error(err)}
-			res.json({
-				todos: todos.map((todo) => {
-					return {
-						todo: todo.content,
-						isCompleted: todo.isCompleted,
-						todoId: todo._id,
-						position: todo.position
-					}
-				})
+			const todosAsObjects = {}
+			todos.forEach(todo => {
+				todosAsObjects[`${todo._id}`] = {
+					todo: todo.todo,
+					isCompleted: todo.isCompleted
+				}
 			})
+			res.json(todosAsObjects)
 		})
 	})
 

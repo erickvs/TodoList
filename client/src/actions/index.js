@@ -12,14 +12,10 @@ export const fetchTodos = () => {
 		return axios({
 			method: 'get',
 			url: `/api/todos`
-		}).then(
-		response => {
-			const todos = response.data.todos
+		}).then( response => {
+			const todos = response.data
 			dispatch(initializeTodos(todos))
-		}
-		).catch(
-		error => console.log(error)
-	)
+		}).catch(error => console.log(error))
 	}
 }
 
@@ -28,6 +24,21 @@ export const addTodo = (todo) => {
 	return {
 		type: ADD_TODO,
 		todo
+	}
+}
+export const createNewTodo = todo => {
+	return (dispatch) => {
+		return axios({
+			method: 'post',
+			url: '/api/todos',
+			data: { todo: todo }
+		}).then(
+			response => {
+				dispatch(addTodo(response.data))
+			}
+		).catch(
+			error => console.log(error)
+		)
 	}
 }
 
@@ -42,13 +53,20 @@ export const saveToggleIsCompleted = (todoId) => {
 	return dispatch => {
 		return axios({
 			method: 'put',
-			url: `/api/todos/${todoId}`
+			url: `/api/todos/${todoId}/toggle-is-completed`
 		}).then(
 			response => {
 				const todo = response.data
-				dispatch(toggleIsCompleted(todo))}
-		).catch(
+				dispatch(toggleIsCompleted(todo))
+		}).catch(
 			error => console.log(error)
 		)
+	}
+}
+
+export const TOGGLE_NEW_TODO_FORM_DISPLAY = 'TOGGLE_NEW_TODO_FORM_DISPLAY'
+export const toggleNewTodoFormDisplay = () => {
+	return {
+		type: TOGGLE_NEW_TODO_FORM_DISPLAY
 	}
 }

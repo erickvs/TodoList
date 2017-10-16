@@ -12,7 +12,6 @@ function Todo(props) {
 			<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
 				<circle cx="40" cy="29" r="22" stroke="black" fill="black" 
 					onClick={props.toggleIsCompleted} 
-					data-todoindex={props.todoIndex}
 					data-todoid={props.todoId}/>
 				<text x="80" y="36" fontFamily='Quicksand' fontSize="20px" 
 				fill="rgb(150,150,150)" style={{textDecoration: "line-through"}}>
@@ -24,15 +23,15 @@ function Todo(props) {
 			<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
 				<circle cx="40" cy="29" r="22" stroke="black" fill="white" 
 				onClick={props.toggleIsCompleted}
-				data-todoindex={props.todoIndex}
 				data-todoid={props.todoId}/>
 				<text x="80" y="36" fontFamily='Quicksand' fontSize="20px" fill="black">
 					{props.todo} 
 				</text>
 			</svg>
 	)
+
 	return(
-		<li className="todo">
+		<li className="todo" draggable="true" >
 			{props.completed ? completedTodo : incompleteTodo}
 		</li>
 	)

@@ -1,10 +1,10 @@
-# Simple TODO list API
-A simple TODO list API with ExpressJS, MongoDB, Mongoose back end and a 
-React + Redux front end (front end coming soon). Until the front end is up and
-running (by tomorrow) you can test the enddpoint with Postman.
+# TODO List
+A simple TODO list powered by a ExpressJS, MongoDB and Mongoose back-end and a 
+React and Redux front-end.
 
 ## Creating a new TODO
 POST https://dry-brushlands-90075.herokuapp.com/api/todos
+
 body {
 	content: Your TODO 
 	position: A number that will indicate the position of this TODO in the TODO list

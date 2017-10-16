@@ -1,13 +1,17 @@
 import { connect } from 'react-redux'
-import { fetchTodos } from './actions'
 import './App.css';
-import TodoList from './TodoList'
-import {saveToggleIsCompleted} from './actions'
+import TodoList from '../TodoList'
+import {
+	toggleNewTodoFormDisplay, 
+	saveToggleIsCompleted, 
+	createNewTodo
+} from '../actions'
 
 
 const mapStateToProps = state => {
 	return {
-		todos: state.allTodos,
+		todos: state.todos,
+		displayNewTodoForm: state.displayNewTodoForm
 	}
 }
 
@@ -17,7 +21,12 @@ const mapDispatchToProps = dispatch => {
 			const todoId = e.target.dataset.todoid
 			dispatch(saveToggleIsCompleted(todoId))
 		},
-		fetchTodos: fetchTodos
+		handleCreateNewTodo: (todo) => {
+			dispatch(createNewTodo(todo))
+		},
+		toggleNewTodoFormDisplay: () => {
+			dispatch(toggleNewTodoFormDisplay())
+		}
 	}
 }
 

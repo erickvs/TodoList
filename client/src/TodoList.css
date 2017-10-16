@@ -12,6 +12,15 @@ header h1 {
 	font-family: 'Quicksand', sans-serif;
 	font-weight: 400;
 	color: black;
+	text-align: center;
+}
+
+header li.menu-btn {
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+	color: black;
+	text-align: center;
+	margin: 30px 30px 0 30px;
 }
 
 ul.todoList {
@@ -21,5 +30,12 @@ ul.todoList {
 	align-items: center;
 	list-style: none;
 	padding: 0;
+}
 
+ul.menu {
+	display: flex;
+	justify-content: space-between;
+
+	list-style: none;
+	padding: 0;
 }
