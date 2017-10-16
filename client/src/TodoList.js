@@ -20,7 +20,7 @@ class TodoList extends React.Component {
 		const newTodoValue = this.state.newTodoValue
 		this.setState({newTodoValue: ''})
 		this.props.toggleNewTodoFormDisplay()
-		this.props.handleCreateNewTodo(newTodoValue)
+		if (newTodoValue) this.props.handleCreateNewTodo(newTodoValue)
 		e.preventDefault()
 	}
 
