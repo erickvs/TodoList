@@ -48,10 +48,6 @@ db.once('open', function() {
 		this.isCompleted = !this.isCompleted
 	}
 
-	todoSchema.methods.updatePosition = function(pos) {
-		this.position = pos
-	}
-
 	// Todo model
 	var Todo = mongoose.model('Todo', todoSchema )
 
@@ -89,26 +85,6 @@ db.once('open', function() {
 				})
 			})
 		})
-	})
-
-	// Modify TODOs positions
-	app.put('/api/todos/', function(req, res) {
-		const REGEX = /([a-f0-9]+):([\d]+)/
-		const arr = req.body.todos.split(",")
-		arr.forEach( token => {
-			const matchResult = token.match(REGEX)
-			const todoId = matchResult[1]
-			const newPosition = matchResult[2]
-			Todo.findOne({_id: todoId}, function(err, todo) {
-				if (err) return console.log(err)
-				todo.updatePosition(newPosition) // Update position
-				todo.save(function(err, todo) {
-					if (err) return console.log(err)
-					// TODO should be updated now
-				})
-			})
-		})
-		res.json({success: true})
 	})
 
 	// Delete todo
