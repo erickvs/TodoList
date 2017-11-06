@@ -7,7 +7,7 @@ const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const mongoose = require('mongoose')
 const morgan = require('morgan')
-const SECRET = require('./config').SECRET
+const SECRET = require('./config').SECRET || process.env.SECRET
 const bcrypt = require("bcrypt-nodejs");
 const SALT_FACTOR = 10;
 
