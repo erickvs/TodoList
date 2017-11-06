@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './containers/App';
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 import registerServiceWorker from './registerServiceWorker';
 import TodoList from './reducers/TodoList'
-import {fetchTodos} from './actions'
+import RouterContainer from './routes'
 
 const loggerMiddleware = createLogger()
 
@@ -20,17 +20,22 @@ const middleware = applyMiddleware(
 const composeEnhancers =
 	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
+const rootReducer = combineReducers({
 	TodoList,
+	form: formReducer
+})
+
+const store = createStore(
+	rootReducer,
 	composeEnhancers(middleware)
 );
 
 // Hydrate the store
-store.dispatch(fetchTodos())
+// store.dispatch(fetchTodos())
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<RouterContainer />
 	</Provider>, 
 	document.getElementById('root')
 );

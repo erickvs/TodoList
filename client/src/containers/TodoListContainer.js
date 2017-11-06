@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
-import TodoRouter from '../routes'
+import TodoList from '../TodoList'
 import {
-	createAndLogInUser,
 	toggleNewTodoFormDisplay, 
 	saveToggleIsCompleted, 
 	createNewTodo,
@@ -10,16 +9,14 @@ import {
 
 const mapStateToProps = state => {
 	return {
-		todos: state.todos,
-		displayNewTodoForm: state.displayNewTodoForm
+		user: state.TodoList.user,
+		todos: state.TodoList.todos,
+		displayNewTodoForm: state.TodoList.displayNewTodoForm
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		handleOnSubmitNewUserForm: values => {
-			dispatch(createAndLogInUser(values))
-		},
 		handleToggleIsCompleted: e => {
 			const todoId = e.target.dataset.todoid
 			dispatch(saveToggleIsCompleted(todoId))
@@ -37,5 +34,5 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-const App = connect(mapStateToProps, mapDispatchToProps)(TodoRouter)
-export default App
+const TodoListContainer = connect(mapStateToProps, mapDispatchToProps)(TodoList)
+export default TodoListContainer

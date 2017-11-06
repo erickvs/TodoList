@@ -46,7 +46,7 @@ class TodoList extends React.Component {
 				<form onSubmit={this.createNewTodo}>
 					<label>
 						<input 
-							placeHolder="Enter TODO"
+							placeholder="Enter TODO"
 							className="form-control"
 							type="text" 
 							value={this.state.newTodoValue} 
@@ -60,11 +60,10 @@ class TodoList extends React.Component {
 			<div className='container-fluid'>
 				<header>
 				<ul className="menu">
-					<li className="menu-btn" onClick={props.toggleNewTodoFormDisplay}>
-						<a>New Todo</a>
+					<li><h1>{`${this.props.user}'s TODOs`}</h1></li>
+					<li className="menu" onClick={props.toggleNewTodoFormDisplay}>
+						<h1>+</h1>
 					</li>
-					<li><h1>Erick's TODOs</h1></li>
-					<li className="menu-btn"><a>Sign Out</a></li>
 				</ul>
 				</header>
 				<ul className='todoList'>

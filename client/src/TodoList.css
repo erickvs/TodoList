@@ -50,7 +50,7 @@ ul.todoList li form label input {
 
 ul.menu {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 
 	list-style: none;
 	padding: 0;

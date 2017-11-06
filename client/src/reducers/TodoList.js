@@ -1,15 +1,38 @@
 import {	ADD_TODO, 
 					TOGGLE_IS_COMPLETED,
 					INITIALIZE_TODOS,
-					TOGGLE_NEW_TODO_FORM_DISPLAY
+					TOGGLE_NEW_TODO_FORM_DISPLAY,
+					SET_USER,
+					TOGGLE_REDIRECT,
+					TOGGLE_IS_LOADING
 				} from '../actions'
 const initialState = {
+	user: '',
 	todos: {},
-	displayNewTodoForm: false
+	displayNewTodoForm: false,
+	redirect: false,
+	isLoading: false
 }
 
 export default (state = initialState, action) => {
 	switch(action.type) {
+
+		case TOGGLE_IS_LOADING:
+		 return {
+		 	...state,
+		 	isLoading: !state.isLoading
+		 }
+
+		case TOGGLE_REDIRECT:
+			return {
+				...state,
+				redirect: !state.redirect
+			}
+		case SET_USER:
+			return {
+				...state,
+				user: action.name
+			}
 
 		case INITIALIZE_TODOS:
 			return {
